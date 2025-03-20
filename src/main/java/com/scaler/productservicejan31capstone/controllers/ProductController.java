@@ -1,15 +1,12 @@
 package com.scaler.productservicejan31capstone.controllers;
 
-import com.scaler.productservicejan31capstone.dtos.FakeStoreProductDto;
+import com.scaler.productservicejan31capstone.dtos.CreateFakeStoreProductDto;
 import com.scaler.productservicejan31capstone.dtos.ProductResponseDto;
 import com.scaler.productservicejan31capstone.models.Product;
-import com.scaler.productservicejan31capstone.services.FakeStoreProductService;
 import com.scaler.productservicejan31capstone.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class ProductController
 
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable long id)
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable("id") long id)
     {
         Product product = productService.getProductById(id);
         ProductResponseDto productResponseDto = ProductResponseDto.from(product);
@@ -49,6 +46,23 @@ public class ProductController
             productResponseDtos.add(productResponseDto);
         }
         return productResponseDtos;
+    }
+
+    @PostMapping("/products")
+    public ProductResponseDto createProduct(@RequestBody
+                                                CreateFakeStoreProductDto createFakeStoreProductDto)
+    {
+        Product product = productService.createProduct(
+                createFakeStoreProductDto.getName(),
+                createFakeStoreProductDto.getDescription(),
+                createFakeStoreProductDto.getPrice(),
+                createFakeStoreProductDto.getImageUrl(),
+                createFakeStoreProductDto.getCategory()
+        );
+
+        ProductResponseDto productResponseDto = ProductResponseDto.from(product);
+
+        return productResponseDto;
     }
 
 }

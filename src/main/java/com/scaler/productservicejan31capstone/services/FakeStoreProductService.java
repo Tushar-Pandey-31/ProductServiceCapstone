@@ -1,6 +1,7 @@
 package com.scaler.productservicejan31capstone.services;
 
 import com.scaler.productservicejan31capstone.dtos.FakeStoreProductDto;
+import com.scaler.productservicejan31capstone.dtos.FakeStoreProductRequestDto;
 import com.scaler.productservicejan31capstone.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -42,6 +43,25 @@ public class FakeStoreProductService implements ProductService
         }
 
         return products;
+    }
+
+    @Override
+    public Product createProduct(String name, String description, double price, String imageUrl, String category)
+    {
+        FakeStoreProductRequestDto fakeStoreProductRequestDto =
+                new FakeStoreProductRequestDto();
+
+        fakeStoreProductRequestDto.setTitle(name);
+        fakeStoreProductRequestDto.setDescription(description);
+        fakeStoreProductRequestDto.setPrice(price);
+        fakeStoreProductRequestDto.setImage(imageUrl);
+        fakeStoreProductRequestDto.setCategory(category);
+
+        FakeStoreProductDto fakeStoreProductDto= restTemplate.postForObject(
+                "https://fakestoreapi.com/products",
+                fakeStoreProductRequestDto,
+                FakeStoreProductDto.class);
+        return fakeStoreProductDto.toProduct();
     }
 
 
