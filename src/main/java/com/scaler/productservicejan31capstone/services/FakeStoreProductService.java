@@ -2,6 +2,7 @@ package com.scaler.productservicejan31capstone.services;
 
 import com.scaler.productservicejan31capstone.dtos.FakeStoreProductDto;
 import com.scaler.productservicejan31capstone.dtos.FakeStoreProductRequestDto;
+import com.scaler.productservicejan31capstone.exceptions.ProductNotFoundException;
 import com.scaler.productservicejan31capstone.models.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,12 +21,15 @@ public class FakeStoreProductService implements ProductService
         this.restTemplate = restTemplate;
     }
     @Override
-    public Product getProductById(long id)
-    {
+    public Product getProductById(long id) throws ProductNotFoundException {
         FakeStoreProductDto fakeStoreProductDto =
                 restTemplate.getForObject(
                 "https://fakestoreapi.com/products/"+id,
                 FakeStoreProductDto.class);
+        if(fakeStoreProductDto == null)
+        {
+            throw new ProductNotFoundException("The product for id "+ id+" does not exist");
+        }
         return fakeStoreProductDto.toProduct();
     }
 
