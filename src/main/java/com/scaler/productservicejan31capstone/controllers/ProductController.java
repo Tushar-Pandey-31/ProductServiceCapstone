@@ -1,7 +1,6 @@
 package com.scaler.productservicejan31capstone.controllers;
 
 import com.scaler.productservicejan31capstone.dtos.CreateFakeStoreProductDto;
-import com.scaler.productservicejan31capstone.dtos.ErrorDto;
 import com.scaler.productservicejan31capstone.dtos.ProductResponseDto;
 import com.scaler.productservicejan31capstone.exceptions.ProductNotFoundException;
 import com.scaler.productservicejan31capstone.models.Product;
