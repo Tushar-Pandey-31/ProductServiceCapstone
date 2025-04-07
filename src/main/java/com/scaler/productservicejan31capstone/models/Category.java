@@ -1,6 +1,7 @@
 package com.scaler.productservicejan31capstone.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
@@ -14,10 +15,8 @@ import java.util.List;
 public class Category extends BaseModel
 {
     private String description;
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
 
-    @OneToMany
-    private List<Product> featuredProducts;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    private List<Product> products;
 
 }
